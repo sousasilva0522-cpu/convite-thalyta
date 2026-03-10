@@ -1,75 +1,110 @@
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Chá de Casa - Thalyta</title>
+<title>Chá de Casa Nova da Thalyta</title>
 
 <style>
 body{
 font-family: Arial;
-background:#f4f4f4;
+background: linear-gradient(white,#f5f5f5);
 text-align:center;
-padding:20px;
-}
-
-.container{
-background:white;
-padding:30px;
-border-radius:10px;
-max-width:600px;
-margin:auto;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
+padding:40px;
 }
 
 h1{
-color:#444;
-}
-
-.presente{
-border-bottom:1px solid #ddd;
-padding:10px;
+color:#4b2e2e;
 }
 
 button{
-background:#4CAF50;
+background:#4b2e2e;
 color:white;
 border:none;
-padding:8px 15px;
-border-radius:5px;
+padding:12px 25px;
+font-size:16px;
 cursor:pointer;
+border-radius:8px;
 }
 
-button:hover{
-background:#45a049;
+.lista{
+margin-top:30px;
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="container">
+<h1>Chá de Casa Nova da Thalyta</h1>
 
-<h1>Chá de Casa da Thalyta</h1>
-
-<p>
-"Consagre ao Senhor tudo o que você faz,
-e os seus planos serão bem-sucedidos."
-<br>
-Provérbios 16:3
-</p>
+<p><b>Provérbios 16:3</b></p>
+<p>"Consagre ao Senhor tudo o que você faz, e os seus planos serão bem-sucedidos."</p>
 
 <h2>Lista de Presentes</h2>
 
-<div id="listaPresentes"></div>
+<div class="lista" id="lista"></div>
 
-<br>
+<h3>Confirmar presença</h3>
 
-<h2>Confirmar Presença</h2>
+<input type="text" id="nome" placeholder="Digite seu nome">
 
-<a href="https://wa.me/5583996407861">
-<button>Confirmar pelo WhatsApp</button>
-</a>
+<br><br>
 
-</div>
+<button onclick="confirmar()">Confirmar pelo WhatsApp</button>
 
-<script type
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+apiKey: "COLE_AQUI",
+authDomain: "COLE_AQUI",
+projectId: "COLE_AQUI",
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const lista = document.getElementById("lista");
+
+async function carregar(){
+
+const querySnapshot = await getDocs(collection(db,"chá de casa"));
+
+querySnapshot.forEach((doc)=>{
+
+const item = document.createElement("p");
+
+item.textContent = doc.data().nome;
+
+lista.appendChild(item);
+
+});
+
+}
+
+carregar();
+
+</script>
+
+<script>
+
+function confirmar(){
+
+let nome = document.getElementById("nome").value;
+
+let msg = "Olá! Meu nome é "+nome+" e confirmo presença no Chá de Casa Nova da Thalyta.";
+
+let url = "https://wa.me/5583996407861?text="+encodeURIComponent(msg);
+
+window.open(url);
+
+}
+
+</script>
+
+</body>
+</html>
