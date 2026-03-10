@@ -24,47 +24,21 @@ input{padding:10px; width:200px; margin-top:10px;}
 <button id="btnConfirmar">Confirmar presença</button>
 
 <h3>Lista de Presentes</h3>
-<div class="presentes" id="lista"></div>
-
-<!-- Firebase compat (funciona direto no Pages) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<div class="presentes" id="lista">
+  <div class="presente">Jogo de panelas</div>
+  <div class="presente">Jogo de talheres</div>
+  <div class="presente">Toalhas</div>
+  <div class="presente">Pratos</div>
+  <div class="presente">Copo térmico</div>
+  <div class="presente">Panelinha</div>
+</div>
 
 <script>
-window.onload = function(){
-
-  // Configuração Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
-    authDomain: "cha-thalyta.firebaseapp.com",
-    projectId: "cha-thalyta",
-    storageBucket: "cha-thalyta.firebasestorage.app",
-    messagingSenderId: "478303290064",
-    appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
-    measurementId: "G-FT0C3L616Q"
-  };
-
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // Botão WhatsApp
-  document.getElementById('btnConfirmar').onclick = function(){
-    const nome = document.getElementById('nome').value;
-    window.open(https://wa.me/5583996407861?text=${encodeURIComponent("Olá! Eu "+nome+" confirmo presença no Chá de Casa da Thalyta!")});
-  }
-
-  // Puxar presentes do Firebase
-  const lista = document.getElementById('lista');
-  db.collection("chá de casa").get().then((querySnapshot)=>{
-    querySnapshot.forEach((doc)=>{
-      const data = doc.data();
-      // só mostra se disponivel = true
-      if(data.disponivel === true){
-        lista.innerHTML += <div class="presente">${data.nome}</div>;
-      }
-    });
-  }).catch(err => console.error("Erro ao carregar presentes:", err));
-
+// Botão WhatsApp
+document.getElementById('btnConfirmar').onclick = function(){
+  const nome = document.getElementById('nome').value;
+  if(nome.trim() === ""){ alert("Digite seu nome antes de confirmar!"); return; }
+  window.open(https://wa.me/5583996407861?text=${encodeURIComponent("Olá! Eu "+nome+" confirmo presença no Chá de Casa da Thalyta!")});
 }
 </script>
 
