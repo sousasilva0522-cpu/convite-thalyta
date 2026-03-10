@@ -1,44 +1,27 @@
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
-  authDomain: "cha-thalyta.firebaseapp.com",
-  projectId: "cha-thalyta",
-  storageBucket: "cha-thalyta.firebasestorage.app",
-  messagingSenderId: "478303290064",
-  appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
-  measurementId: "G-FT0C3L616Q"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// FUNÇÕES GLOBAIS
-window.abrirConvite = function() {
+<script>
+// FUNÇÕES GLOBAIS PARA O BOTÃO
+function abrirConvite(){
   document.querySelector(".capa").style.display = "none";
   document.getElementById("convite").style.display = "block";
-};
-
-window.confirmar = function() {
-  const nome = document.getElementById("nome").value;
-  const mensagem = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
-  window.open(https://wa.me/5583996407861?text=${encodeURIComponent(mensagem)});
-};
-
-// CARREGAR PRESENTES
-async function carregarPresentes() {
-  const querySnapshot = await getDocs(collection(db, "chá de casa"));
-  const lista = document.getElementById("lista");
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    if (data.disponivel) {
-      lista.innerHTML += <div class="presente">${data.nome}</div>;
-    }
-  });
 }
 
-carregarPresentes();
-</script>
+function confirmar(){
+  const nome = document.getElementById("nome").value;
+  const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
+  window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
+}
 
+// Lista de presentes (apenas teste, sem Firebase)
+const presentes = [
+  "Jogo de panelas",
+  "Toalhas",
+  "Copo térmico",
+  "Pratos",
+  "Panelinha"
+];
+
+const lista = document.getElementById("lista");
+presentes.forEach(p => {
+  lista.innerHTML += <div class="presente">${p}</div>;
+});
+</script>
