@@ -56,14 +56,12 @@ input{
 </head>
 <body>
 
-<!-- TELA INICIAL -->
 <div class="capa">
   <h1>Chá de Casa Nova da Thalyta</h1>
   <p>🏠</p>
   <button id="btnAbrir">Abrir Convite</button>
 </div>
 
-<!-- CONVITE -->
 <div class="convite" id="convite">
   <h2>Você está convidado!</h2>
   <p>“Consagre ao Senhor tudo o que você faz,<br>e os seus planos serão bem-sucedidos.”</p>
@@ -76,6 +74,38 @@ input{
   <div class="presentes" id="lista"></div>
 </div>
 
-<!-- SCRIPT DEFINITIVO -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src
+<script>
+window.addEventListener('DOMContentLoaded', function(){
+
+  // Botão abrir convite
+  document.getElementById('btnAbrir').addEventListener('click', function(){
+    document.querySelector('.capa').style.display='none';
+    document.getElementById('convite').style.display='block';
+  });
+
+  // Botão confirmar no WhatsApp
+  document.getElementById('btnConfirmar').addEventListener('click', function(){
+    const nome = document.getElementById('nome').value;
+    const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
+    window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
+  });
+
+  // Lista de presentes de teste (funciona sem Firebase)
+  const presentes = [
+    "Jogo de panelas",
+    "Toalhas",
+    "Copo térmico",
+    "Pratos",
+    "Panelinha"
+  ];
+
+  const lista = document.getElementById("lista");
+  presentes.forEach(p => {
+    lista.innerHTML += <div class="presente">${p}</div>;
+  });
+
+});
+</script>
+
+</body>
+</html>
