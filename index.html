@@ -26,7 +26,7 @@ input{padding:10px; width:200px; margin-top:10px;}
 <h3>Lista de Presentes</h3>
 <div class="presentes" id="lista"></div>
 
-<!-- Firebase compat -->
+<!-- Firebase compat (funciona direto no Pages) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -58,7 +58,8 @@ window.onload = function(){
   db.collection("chá de casa").get().then((querySnapshot)=>{
     querySnapshot.forEach((doc)=>{
       const data = doc.data();
-      if(data.disponivel){ // só mostra os que estão disponíveis
+      // só mostra se disponivel = true
+      if(data.disponivel === true){
         lista.innerHTML += <div class="presente">${data.nome}</div>;
       }
     });
