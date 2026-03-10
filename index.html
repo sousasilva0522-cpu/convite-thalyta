@@ -63,11 +63,28 @@ window.onload = function(){
 
     querySnapshot.forEach((doc) => {
 
-      const item = document.createElement("div");
-      item.className = "presente";
-      item.innerText = doc.data().nome;
+    const item = document.createElement("button"); // trocar "div" por "button"
+item.className = "presente";
+item.innerText = doc.data().nome;
 
-      lista.appendChild(item);
+// se já estiver reservado, desabilita o botão
+if (doc.data().reservado && doc.data().reservado !== "") {
+  item.disabled = true;
+  item.style.opacity = "0.5"; // fica esmaecido
+}
+
+// evento de clique para selecionar o presente
+item.onclick = function() {
+  // remove destaque de todos os outros
+  document.querySelectorAll(".presente").forEach(b => b.style.backgroundColor = "#fff");
+  // destaca o presente selecionado
+  item.style.backgroundColor = "#f0c36d";
+
+  // salva o id do documento selecionado (mais tarde você pode usar para atualizar Firebase)
+  item.setAttribute("data-id", doc.id);
+};
+
+lista.appendChild(item); 
 
     });
 
