@@ -7,9 +7,10 @@
 body{font-family: Arial; background:#fff; text-align:center; margin:0; padding:0;}
 h1{color:#4b2e2e; font-size:40px; margin-top:30px;}
 button{padding:12px 25px; background:#4b2e2e; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;}
-.presentes{max-width:500px; margin:30px auto; text-align:left;}
+.presentes{max-width:500px; margin:30px auto; text-align:left; display:none;}
 .presente{background:#fff; border:1px solid #ddd; padding:10px; margin:5px; border-radius:5px;}
 input{padding:10px; width:200px; margin-top:10px;}
+#btnAbrir{margin-top:20px;}
 </style>
 </head>
 <body>
@@ -20,27 +21,22 @@ input{padding:10px; width:200px; margin-top:10px;}
 <p>“Consagre ao Senhor tudo o que você faz,<br>e os seus planos serão bem-sucedidos.”</p>
 <p><b>Provérbios 16:3</b></p>
 
-<input id="nome" placeholder="Digite seu nome"><br><br>
-<button id="btnConfirmar">Confirmar presença</button>
+<button id="btnAbrir">Abrir Convite</button>
 
-<h3>Lista de Presentes</h3>
-<div class="presentes" id="lista">
-  <div class="presente">Jogo de panelas</div>
-  <div class="presente">Jogo de talheres</div>
-  <div class="presente">Toalhas</div>
-  <div class="presente">Pratos</div>
-  <div class="presente">Copo térmico</div>
-  <div class="presente">Panelinha</div>
+<div class="presentes" id="convite">
+  <input id="nome" placeholder="Digite seu nome"><br><br>
+  <button id="btnConfirmar">Confirmar presença</button>
+
+  <h3>Lista de Presentes</h3>
+  <div class="presentes" id="lista"></div>
 </div>
 
-<script>
-// Botão WhatsApp
-document.getElementById('btnConfirmar').onclick = function(){
-  const nome = document.getElementById('nome').value;
-  if(nome.trim() === ""){ alert("Digite seu nome antes de confirmar!"); return; }
-  window.open(https://wa.me/5583996407861?text=${encodeURIComponent("Olá! Eu "+nome+" confirmo presença no Chá de Casa da Thalyta!")});
-}
-</script>
+<!-- Firebase compat -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-</body>
-</html>
+<script>
+window.onload = function(){
+
+  // Configuração Firebase
+  const firebaseConfi
