@@ -1,8 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Chá de Casa Nova da Thalyta</title>
+<style>
+body{
+  font-family: Arial;
+  background: #fff;
+  text-align:center;
+  margin:0;
+  padding:0;
+}
+.capa{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+}
+h1{
+  color:#4b2e2e;
+  font-size:40px;
+}
+button{
+  padding:12px 25px;
+  background:#4b2e2e;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.convite{
+  display:none;
+  padding:30px;
+}
+.presentes{
+  max-width:500px;
+  margin:auto;
+  text-align:left;
+}
+.presente{
+  background:#fff;
+  border:1px solid #ddd;
+  padding:10px;
+  margin:5px;
+  border-radius:5px;
+  display:flex;
+  justify-content:space-between;
+}
+input{
+  padding:10px;
+  width:200px;
+  margin-top:10px;
+}
+</style>
+</head>
+<body>
+
+<!-- TELA INICIAL -->
+<div class="capa">
+  <h1>Chá de Casa Nova da Thalyta</h1>
+  <p>🏠</p>
+  <button onclick="abrirConvite()">Abrir Convite</button>
+</div>
+
+<!-- CONVITE -->
+<div class="convite" id="convite">
+  <h2>Você está convidado!</h2>
+  <p>“Consagre ao Senhor tudo o que você faz,<br>e os seus planos serão bem-sucedidos.”</p>
+  <p><b>Provérbios 16:3</b></p>
+
+  <input id="nome" placeholder="Digite seu nome"><br><br>
+  <button onclick="confirmar()">Confirmar presença</button>
+
+  <h3>Lista de Presentes</h3>
+  <div class="presentes" id="lista"></div>
+</div>
+
 <script>
-// FUNÇÕES GLOBAIS PARA O BOTÃO
+// FUNÇÕES GLOBAIS
 function abrirConvite(){
-  document.querySelector(".capa").style.display = "none";
-  document.getElementById("convite").style.display = "block";
+  document.querySelector(".capa").style.display="none";
+  document.getElementById("convite").style.display="block";
 }
 
 function confirmar(){
@@ -11,7 +91,7 @@ function confirmar(){
   window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
 }
 
-// Lista de presentes (apenas teste, sem Firebase)
+// LISTA DE PRESENTES DE TESTE
 const presentes = [
   "Jogo de panelas",
   "Toalhas",
@@ -25,3 +105,6 @@ presentes.forEach(p => {
   lista.innerHTML += <div class="presente">${p}</div>;
 });
 </script>
+
+</body>
+</html>
