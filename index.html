@@ -70,7 +70,21 @@ window.onload = function() {
   btnAbrir.onclick = function() {
     convite.style.display = "block";
   }
-
+const btnConfirmar = document.getElementById("btnConfirmar");
+btnConfirmar.onclick = function() {
+  const nome = document.getElementById("nome").value.trim();
+  if(nome === "") {
+    alert("Por favor, digite seu nome antes de confirmar!");
+    return;
+  }
+  
+  // monta a mensagem para o WhatsApp
+  const mensagem = Olá, meu nome é ${nome}. Confirmei presença no Chá de Casa Nova da Thalyta.;
+  const numero = "558396407861";
+  
+  // abre o WhatsApp no celular ou web
+  window.open(https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}, "_blank");
+};
   // carregar lista de presentes
   db.collection("chá de casa").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
