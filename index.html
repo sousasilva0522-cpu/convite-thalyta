@@ -3,27 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <title>Chá de Casa Nova da Thalyta</title>
+
 <style>
-body{font-family: Arial; background:#fff; text-align:center; margin:0; padding:0;}
-h1{color:#4b2e2e; font-size:40px; margin-top:30px;}
-button{padding:12px 25px; background:#4b2e2e; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;}
-.presentes{max-width:500px; margin:30px auto; text-align:left; display:none;}
-.presente {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
-  width: 100%;        /* faz o botão ocupar toda a largura da lista */
-  text-align: left;   /* deixa o texto alinhado à esquerda */
-  cursor: pointer;    /* mostra a mãozinha quando passar o mouse */
-  font-size: 16px;
+body{
+font-family: Arial;
+background:#fff;
+text-align:center;
+margin:0;
+padding:0;
 }
 
-input{padding:10px; width:200px; margin-top:10px;}
-#btnAbrir{margin-top:20px;}
+h1{
+color:#4b2e2e;
+font-size:40px;
+margin-top:30px;
+}
+
+button{
+padding:12px 25px;
+background:#4b2e2e;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+.presentes{
+max-width:500px;
+margin:30px auto;
+text-align:left;
+display:none;
+}
+
+.presente{
+display:block;
+width:100%;
+background:#fff;
+border:1px solid #ddd;
+padding:10px;
+margin:5px 0;
+border-radius:5px;
+text-align:left;
+cursor:pointer;
+font-size:16px;
+color:#333;
+}
+
+.presente:hover{
+background:#f5f5f5;
+}
+
+.selecionado{
+background:#f0c36d !important;
+}
+
+input{
+padding:10px;
+width:200px;
+margin-top:10px;
+}
+
+#btnAbrir{
+margin-top:20px;
+}
 </style>
 </head>
+
 <body>
 
 <h1>Chá de Casa Nova da Thalyta</h1>
@@ -35,74 +81,82 @@ input{padding:10px; width:200px; margin-top:10px;}
 <button id="btnAbrir">Abrir Convite</button>
 
 <div class="presentes" id="convite">
-  <input id="nome" placeholder="Digite seu nome"><br><br>
-  <button id="btnConfirmar">Confirmar presença</button>
 
-  <h3>Lista de Presentes</h3>
- <div id="lista"></div>
+<input id="nome" placeholder="Digite seu nome"><br><br>
+
+<button id="btnConfirmar">Confirmar presença</button>
+
+<h3>Lista de Presentes</h3>
+
+<div id="lista"></div>
+
 </div>
-  
-<!-- Firebase compat -->
+
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
- <script>
+
+<script>
+
 const firebaseConfig = {
-  apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
-  authDomain: "cha-thalyta.firebaseapp.com",
-  projectId: "cha-thalyta",
-  storageBucket: "cha-thalyta.firebasestorage.app",
-  messagingSenderId: "478303290064",
-  appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
-  measurementId: "G-FT0C3L616Q"
+apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
+authDomain: "cha-thalyta.firebaseapp.com",
+projectId: "cha-thalyta",
+storageBucket: "cha-thalyta.firebasestorage.app",
+messagingSenderId: "478303290064",
+appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
+measurementId: "G-FT0C3L616Q"
 };
 
 firebase.initializeApp(firebaseConfig);
 
 window.onload = function(){
 
-  // botão para abrir o convite
-  document.getElementById("btnAbrir").onclick = function(){
-    document.getElementById("convite").style.display = "block";
-  }
+let presenteSelecionado = null;
 
-  const db = firebase.firestore();
-
-  // carregar a lista de presentes
-  db.collection("chá de casa").get().then((querySnapshot) => {
-
-    const lista = document.getElementById("lista");
-
-    querySnapshot.forEach((doc) => {
-
-    const item = document.createElement("button"); // trocar "div" por "button"
-item.className = "presente";
-item.innerText = doc.data().nome;
-
-// se já estiver reservado, desabilita o botão
-if (doc.data().reservado && doc.data().reservado !== "") {
-  item.disabled = true;
-  item.style.opacity = "0.5"; // fica esmaecido
+document.getElementById("btnAbrir").onclick = function(){
+document.getElementById("convite").style.display = "block";
 }
 
-// evento de clique para selecionar o presente
-item.onclick = function() {
-  // remove destaque de todos os outros
-  document.querySelectorAll(".presente").forEach(b => b.style.backgroundColor = "#fff");
-  // destaca o presente selecionado
-  item.style.backgroundColor = "#f0c36d";
+const db = firebase.firestore();
 
-  // salva o id do documento selecionado (mais tarde você pode usar para atualizar Firebase)
-  item.setAttribute("data-id", doc.id);
-};
+db.collection("chá de casa").get().then((querySnapshot)=>{
 
-lista.appendChild(item); 
+const lista = document.getElementById("lista");
 
-    });
+querySnapshot.forEach((doc)=>{
 
-  });
+const item = document.createElement("button");
+
+item.className = "presente";
+
+item.innerText = doc.data().nome;
+
+if(doc.data().reservado && doc.data().reservado !== ""){
+item.disabled = true;
+item.style.opacity = "0.5";
+}
+
+item.onclick = function(){
+
+document.querySelectorAll(".presente").forEach(b=>{
+b.classList.remove("selecionado");
+});
+
+item.classList.add("selecionado");
+
+presenteSelecionado = doc.id;
+
+}
+
+lista.appendChild(item);
+
+});
+
+});
 
 }
 </script>
 
 </body>
-</html>  
+</html>
