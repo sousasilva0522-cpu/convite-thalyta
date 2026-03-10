@@ -35,34 +35,26 @@ input{padding:10px; width:200px; margin-top:10px;}
 </div>
 
 <script>
-// Espera o HTML carregar totalmente antes de atribuir funções
 window.onload = function(){
 
-  // Botão abrir convite
-  const btnAbrir = document.getElementById('btnAbrir');
-  const capa = document.querySelector('.capa');
-  const convite = document.getElementById('convite');
-
-  btnAbrir.onclick = function(){
-    capa.style.display = 'none';
-    convite.style.display = 'block';
+  // Abre convite
+  document.getElementById('btnAbrir').onclick = function(){
+    document.querySelector('.capa').style.display = 'none';
+    document.getElementById('convite').style.display = 'block';
   }
 
-  // Botão confirmar WhatsApp
+  // Botão WhatsApp
   document.getElementById('btnConfirmar').onclick = function(){
     const nome = document.getElementById('nome').value;
-    const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
-    window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
+    window.open(https://wa.me/5583996407861?text=${encodeURIComponent("Olá! Eu "+nome+" confirmo presença no Chá de Casa da Thalyta!")});
   }
 
   // Lista de presentes teste
   const presentes = ["Jogo de panelas","Toalhas","Copo térmico","Pratos","Panelinha"];
   const lista = document.getElementById('lista');
-  presentes.forEach(p => {
-    lista.innerHTML += <div class="presente">${p}</div>;
-  });
+  presentes.forEach(p => lista.innerHTML += <div class="presente">${p}</div>);
 
-};
+}
 </script>
 
 </body>
