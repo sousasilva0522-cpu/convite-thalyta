@@ -46,8 +46,6 @@ button{
   padding:10px;
   margin:5px;
   border-radius:5px;
-  display:flex;
-  justify-content:space-between;
 }
 input{
   padding:10px;
@@ -78,51 +76,6 @@ input{
   <div class="presentes" id="lista"></div>
 </div>
 
-<!-- SCRIPT FINAL -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-<script>
-window.addEventListener('DOMContentLoaded', function(){
-
-  // Inicializar Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
-    authDomain: "cha-thalyta.firebaseapp.com",
-    projectId: "cha-thalyta",
-    storageBucket: "cha-thalyta.firebasestorage.app",
-    messagingSenderId: "478303290064",
-    appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
-    measurementId: "G-FT0C3L616Q"
-  };
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  // Botão abrir convite
-  document.getElementById('btnAbrir').addEventListener('click', function(){
-    document.querySelector('.capa').style.display='none';
-    document.getElementById('convite').style.display='block';
-  });
-
-  // Botão confirmar no WhatsApp
-  document.getElementById('btnConfirmar').addEventListener('click', function(){
-    const nome = document.getElementById('nome').value;
-    const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
-    window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
-  });
-
-  // Carregar presentes do Firebase
-  const lista = document.getElementById("lista");
-  db.collection("chá de casa").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      if(data.disponivel){
-        lista.innerHTML += <div class="presente">${data.nome}</div>;
-      }
-    });
-  }).catch(err => console.error("Erro ao carregar presentes:", err));
-
-});
-</script>
-
-</body>
-</html>
+<!-- SCRIPT DEFINITIVO -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src
