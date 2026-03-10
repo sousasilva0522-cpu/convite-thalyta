@@ -62,7 +62,7 @@ input{
 <div class="capa">
   <h1>Chá de Casa Nova da Thalyta</h1>
   <p>🏠</p>
-  <button onclick="abrirConvite()">Abrir Convite</button>
+  <button id="btnAbrir">Abrir Convite</button>
 </div>
 
 <!-- CONVITE -->
@@ -72,37 +72,55 @@ input{
   <p><b>Provérbios 16:3</b></p>
 
   <input id="nome" placeholder="Digite seu nome"><br><br>
-  <button onclick="confirmar()">Confirmar presença</button>
+  <button id="btnConfirmar">Confirmar presença</button>
 
   <h3>Lista de Presentes</h3>
   <div class="presentes" id="lista"></div>
 </div>
 
+<!-- SCRIPT FINAL -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 <script>
-// FUNÇÕES GLOBAIS
-function abrirConvite(){
-  document.querySelector(".capa").style.display="none";
-  document.getElementById("convite").style.display="block";
-}
+window.addEventListener('DOMContentLoaded', function(){
 
-function confirmar(){
-  const nome = document.getElementById("nome").value;
-  const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
-  window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
-}
+  // Inicializar Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
+    authDomain: "cha-thalyta.firebaseapp.com",
+    projectId: "cha-thalyta",
+    storageBucket: "cha-thalyta.firebasestorage.app",
+    messagingSenderId: "478303290064",
+    appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
+    measurementId: "G-FT0C3L616Q"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-// LISTA DE PRESENTES DE TESTE
-const presentes = [
-  "Jogo de panelas",
-  "Toalhas",
-  "Copo térmico",
-  "Pratos",
-  "Panelinha"
-];
+  // Botão abrir convite
+  document.getElementById('btnAbrir').addEventListener('click', function(){
+    document.querySelector('.capa').style.display='none';
+    document.getElementById('convite').style.display='block';
+  });
 
-const lista = document.getElementById("lista");
-presentes.forEach(p => {
-  lista.innerHTML += <div class="presente">${p}</div>;
+  // Botão confirmar no WhatsApp
+  document.getElementById('btnConfirmar').addEventListener('click', function(){
+    const nome = document.getElementById('nome').value;
+    const msg = Olá! Eu ${nome} confirmo presença no Chá de Casa da Thalyta!;
+    window.open(https://wa.me/5583996407861?text=${encodeURIComponent(msg)});
+  });
+
+  // Carregar presentes do Firebase
+  const lista = document.getElementById("lista");
+  db.collection("chá de casa").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      if(data.disponivel){
+        lista.innerHTML += <div class="presente">${data.nome}</div>;
+      }
+    });
+  }).catch(err => console.error("Erro ao carregar presentes:", err));
+
 });
 </script>
 
