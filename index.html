@@ -1,117 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Chá de Casa Nova da Thalyta</title>
+<title>Chá de Casa Nova - Thalyta</title>
+
 <style>
-body{font-family: Arial; background:#fff; text-align:center; margin:0; padding:0;}
-h1{color:#4b2e2e; font-size:40px; margin-top:30px;}
-button{padding:12px 25px; background:#4b2e2e; color:white; border:none; border-radius:8px; font-size:16px; cursor:pointer;}
-.presentes{max-width:500px; margin:30px auto; text-align:left; display:none;}
-.presente {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  font-size: 16px;
-  text-align: left;
-  background-color: #fff;
-  color: #4b2e2e; /* garante que o texto apareça */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  cursor: pointer;
+body{
+font-family: Arial;
+background:#f5f3ef;
+text-align:center;
+padding:20px;
 }
 
-.presente:disabled { cursor: not-allowed; opacity: 0.5; }
-input{padding:10px; width:200px; margin-top:10px;}
-#btnAbrir{margin-top:20px;}
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+max-width:400px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+button{
+background:#6b4f3a;
+color:white;
+border:none;
+padding:12px 20px;
+margin-top:15px;
+border-radius:8px;
+font-size:16px;
+}
+
+select,input{
+padding:10px;
+margin-top:10px;
+width:90%;
+}
 </style>
 </head>
+
 <body>
 
-<h1>Chá de Casa Nova da Thalyta</h1>
-<p>🏠</p>
-<p>“Consagre ao Senhor tudo o que você faz,<br>e os seus planos serão bem-sucedidos.”</p>
-<p><b>Provérbios 16:3</b></p>
+<div class="card">
 
-<button id="btnAbrir">Abrir Convite</button>
+<h2>Chá de Casa Nova</h2>
+<h3>Thalyta</h3>
 
-<div class="presentes" id="convite">
-  <input id="nome" placeholder="Digite seu nome"><br><br>
-  <button id="btnConfirmar">Confirmar presença</button>
+<p><b>Data:</b> 14 Junho 2026</p>
+<p><b>Horário:</b> 16:00</p>
 
-  <h3>Lista de Presentes</h3>
-  <div id="lista"></div>
+<p>
+Rua Alayde Batista de Azevedo 57<br>
+Paratibe
+</p>
+
+<p><i>
+“Consagre ao Senhor tudo o que você faz,
+e os seus planos serão bem-sucedidos.”
+Provérbios 16:3
+</i></p>
+
+<hr>
+
+<h3>Confirmar presença</h3>
+
+<input type="text" placeholder="Seu nome">
+
+<h3>Escolha o presente</h3>
+
+<select>
+<option>Escolha um presente</option>
+<option>Panela</option>
+<option>Jogo de copos</option>
+<option>Jogo de pratos</option>
+<option>Talheres</option>
+<option>Liquidificador</option>
+</select>
+
+<br>
+
+<button onclick="alert('Presença confirmada! Obrigado!')">
+Confirmar presença
+</button>
+
 </div>
-
-<!-- Firebase compat -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCP5ERJWlkYf45OdEMbjzHTDfmCYLn3mLA",
-  authDomain: "cha-thalyta.firebaseapp.com",
-  projectId: "cha-thalyta",
-  storageBucket: "cha-thalyta.firebasestorage.app",
-  messagingSenderId: "478303290064",
-  appId: "1:478303290064:web:4eb61b841d9c03b8dc54d5",
-  measurementId: "G-FT0C3L616Q"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-window.onload = function() {
-  const btnAbrir = document.getElementById("btnAbrir");
-  const convite = document.getElementById("convite");
-  const lista = document.getElementById("lista");
-  const db = firebase.firestore();
-
-  // abrir convite
-  btnAbrir.onclick = function() {
-    convite.style.display = "block";
-  }
-const btnConfirmar = document.getElementById("btnConfirmar");
-btnConfirmar.onclick = function() {
-  const nome = document.getElementById("nome").value.trim();
-  if(nome === "") {
-    alert("Por favor, digite seu nome antes de confirmar!");
-    return;
-  }
-  
-  // monta a mensagem para o WhatsApp
-  const mensagem = Olá, meu nome é ${nome}. Confirmei presença no Chá de Casa Nova da Thalyta.;
-  const numero = "558396407861";
-  
-  // abre o WhatsApp no celular ou web
-  window.open(https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}, "_blank");
-};
-  // carregar lista de presentes
-  db.collection("chá de casa").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const item = document.createElement("button");
-      item.className = "presente";
-
-      // limpar nome e evitar undefined
-      const itemNome = doc.data().nome ? doc.data().nome.trim() : "Presente sem nome";
-      item.innerText = itemNome;
-
-      // se já estiver reservado, desabilitar
-      if (doc.data().reservado && doc.data().reservado !== "") {
-        item.disabled = true;
-      }
-
-      // clique para selecionar
-      item.onclick = function() {
-        document.querySelectorAll(".presente").forEach(b => b.style.backgroundColor = "#fff");
-        item.style.backgroundColor = "#f0c36d";
-        item.setAttribute("data-id", doc.id);
-      }
-
-      lista.appendChild(item);
-    });
-  });
-}
-</script>
 
 </body>
 </html>
